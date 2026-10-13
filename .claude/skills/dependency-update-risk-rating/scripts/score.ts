@@ -349,7 +349,8 @@ export function renderMarkdown(r: ScoreResult): string {
   lines.push('');
   lines.push('| Package | Change | Risk | Score | Why |');
   lines.push('|---|---|---|---|---|');
-  const shown = r.packages.slice(0, MAX_TABLE_ROWS);
+  const sorted = [...r.packages].sort((a, b) => b.score100 - a.score100 || a.name.localeCompare(b.name));
+  const shown = sorted.slice(0, MAX_TABLE_ROWS);
   for (const p of shown) {
     const change = `${p.from ?? '-'} -> ${p.to ?? '-'}`;
     const why = p.reasons.length
